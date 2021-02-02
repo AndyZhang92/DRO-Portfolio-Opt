@@ -25,6 +25,22 @@ class LinearRegressionDataGenerator(object):
         y = X.dot(self.var) + self.std * np.random.randn(data_num)
         return X, y
 
+class LogisticRegressionDataGenerator(object):
+    
+    def __init__(self, var):
+        var = np.array(var)
+        assert(var.ndim is 1)
+
+        self.var = var
+        self.dim = var.size
+
+    def generate(self, data_num):
+        X = np.random.randn(data_num, self.dim)
+        prob = 1 / (1 + np.exp(X.dot(self.var)))
+        y = (np.random.rand(data_num) < prob).astype(np.int)
+        y = y * 2 - 1
+        return X, y
+
 def eval_numerical_gradient(f, x):
     """ 
     a naive implementation of numerical gradient of f at x 
